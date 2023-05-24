@@ -29,12 +29,12 @@ const App = () => {
       setUsername('')
       setPassword('')
       console.log('logging in with', username, password)
-      setErrorMessage('Logged in as ' + username)
+      setErrorMessage(`Logged in as ${username}`)
       setTimeout(() => {
         setErrorMessage(null)
       }, 5000)
-
-    } catch (exception) {
+    }
+     catch (exception) {
       setErrorMessage('Wrong credentials')
       setTimeout(() => {
         setErrorMessage(null)
@@ -112,7 +112,6 @@ const App = () => {
 
   const blogForm = () => (
    <> 
-    <Notification message={errorMessage} />
     <p>{user.name} logged in</p> 
     <button type="button" onClick={handleLogout}>Log out</button>
     <h3>New blog:</h3>
@@ -165,7 +164,7 @@ const App = () => {
   return (
     <div>
       <h2>blogs</h2>
-
+      <Notification message={errorMessage} />
       {user === null ?
       loginForm() :
       blogForm() 
