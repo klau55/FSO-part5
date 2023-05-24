@@ -6,7 +6,9 @@ import loginService from './services/login'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
-  const [newBlog, setNewBlog] = useState('')
+  const [newAuthor, setNewAuthor] = useState('')
+  const [newTitle, setNewTitle] = useState('')
+  const [newUrl, setNewUrl] = useState('')
   const [username, setUsername] = useState('') 
   const [password, setPassword] = useState('') 
   const [user, setUser] = useState(null)
@@ -54,7 +56,9 @@ const App = () => {
 
   const handleBlogChange = (event) => {
     console.log(event.target.value)
-    setNewBlog(event.target.value)
+    setNewTitle(event.target.value)
+    setNewAuthor(event.target.value)
+    setNewUrl(event.target.value)
   }
 
   const loginForm = () => (
@@ -107,13 +111,17 @@ const App = () => {
    <> 
     <p>{user.name} logged in</p> 
     <button type="button" onClick={handleLogout}>Log out</button>
+    <h3>New blog:</h3>
     <form onSubmit={addBlog}>
-      <input
-        value={newBlog}
-        onChange={handleBlogChange}
-      />
+      <input name="title"
+        onChange={handleBlogChange} placeholder="title"/>
+      <input name="author"
+        onChange={handleBlogChange} placeholder="author"/>
+      <input name="url"
+        onChange={handleBlogChange} placeholder="url"/>
       <button type="submit">save</button>
     </form>
+    <h4>Blogs:</h4>
     <div>
           {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />
@@ -122,7 +130,22 @@ const App = () => {
   </>
   )
   
-  const addBlog = (event) => {''}
+  const addBlog = async (event) => {
+
+    const newBlog = {
+      title: newTitle,
+      author: newAuthor,
+      url: newUrl,
+      likes: 0,
+      user: user
+    }
+    console.log(newBlog)
+    await blogService
+      .create(newBlog)
+      .post('/api/blogs')
+      .send(newBlog)
+
+  }
   
   return (
     <div>
