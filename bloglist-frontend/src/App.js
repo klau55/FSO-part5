@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
-
+import './index.css'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -12,7 +12,6 @@ const App = () => {
   const [username, setUsername] = useState('') 
   const [password, setPassword] = useState('') 
   const [user, setUser] = useState(null)
-  const [showAll, setShowAll] = useState(true)
   const [errorMessage, setErrorMessage] = useState(null)
 
   const handleLogin = async (event) => {
@@ -30,6 +29,10 @@ const App = () => {
       setUsername('')
       setPassword('')
       console.log('logging in with', username, password)
+      setErrorMessage('Logged in as ' + username)
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
 
     } catch (exception) {
       setErrorMessage('Wrong credentials')
@@ -109,6 +112,7 @@ const App = () => {
 
   const blogForm = () => (
    <> 
+    <Notification message={errorMessage} />
     <p>{user.name} logged in</p> 
     <button type="button" onClick={handleLogout}>Log out</button>
     <h3>New blog:</h3>
@@ -140,11 +144,22 @@ const App = () => {
       user: user
     }
     console.log(newBlog)
-    await blogService
-      .create(newBlog)
-      .post('/api/blogs')
-      .send(newBlog)
 
+    try { 
+      await blogService
+        .create(newBlog)
+        .post('/api/blogs')
+        setErrorMessage('Added new blog')
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
+      } 
+    catch (exception) {
+      setErrorMessage('Error! Check entries')
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
+    }
   }
   
   return (
