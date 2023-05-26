@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react'
-import Blog from './components/Blog'
+import Blog from './components/Blog.js'
 import blogService from './services/blogs'
 import loginService from './services/login'
 import './index.css'
+import BlogForm from './components/BlogForm.js'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -109,7 +110,7 @@ const App = () => {
     console.log('user logged out')
 
   }
-
+/*
   const blogForm = () => (
    <> 
     <p>{user.name} logged in</p> 
@@ -132,7 +133,7 @@ const App = () => {
     </div>
   </>
   )
-  
+  */
   const addBlog = async (event) => {
 
     const newBlog = {
@@ -142,7 +143,7 @@ const App = () => {
       likes: 0,
       user: user
     }
-    console.log(newBlog)
+
 
     try { 
       await blogService
@@ -167,7 +168,7 @@ const App = () => {
       <Notification message={errorMessage} />
       {user === null ?
       loginForm() :
-      blogForm() 
+      <BlogForm user={user} handleLogout={handleLogout} handleBlogChange={handleBlogChange} addBlog={addBlog} blogs={blogs}/>
     }
     </div>
   )
