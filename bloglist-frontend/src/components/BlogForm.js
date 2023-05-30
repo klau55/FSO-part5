@@ -1,8 +1,5 @@
 import Blog from './Blog.js'
 
-
-
-
 const BlogForm = ({ user, handleLogout, handleBlogChange, addBlog, blogs, newBlogVisible,setNewBlogVisible }) => {
   const hideWhenVisible = { display: newBlogVisible ? 'none' : '' }
   const showWhenVisible = { display: newBlogVisible ? '' : 'none' }  

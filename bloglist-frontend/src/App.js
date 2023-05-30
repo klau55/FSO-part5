@@ -15,6 +15,7 @@ const App = () => {
   const [user, setUser] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
   const [newBlogVisible, setNewBlogVisible] = useState(false)
+  const [blogInfoVisible, setBlogInfoVisible] = useState(false)
 
   const handleLogin = async (event) => {
     event.preventDefault()
