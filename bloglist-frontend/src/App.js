@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import Blog from './components/Blog.js'
 import blogService from './services/blogs'
 import loginService from './services/login'
 import './index.css'
@@ -112,30 +111,7 @@ const App = () => {
     console.log('user logged out')
 
   }
-/*
-  const blogForm = () => (
-   <> 
-    <p>{user.name} logged in</p> 
-    <button type="button" onClick={handleLogout}>Log out</button>
-    <h3>New blog:</h3>
-    <form onSubmit={addBlog}>
-      <input name="title"
-        onChange={handleBlogChange} placeholder="title"/>
-      <input name="author"
-        onChange={handleBlogChange} placeholder="author"/>
-      <input name="url"
-        onChange={handleBlogChange} placeholder="url"/>
-      <button type="submit">save</button>
-    </form>
-    <h4>Blogs:</h4>
-    <div>
-          {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
-    )}
-    </div>
-  </>
-  )
-  */
+
   const addBlog = async (event) => {
 
     const newBlog = {
@@ -143,17 +119,17 @@ const App = () => {
       author: newAuthor,
       url: newUrl,
       likes: 0,
-      user: user
+      user: user,
+      creator: user.name
     }
-
+    console.log(newBlog)
 
     try { 
       await blogService
         .create(newBlog)
-        .post('/api/blogs')
         setErrorMessage('Added new blog')
-      setTimeout(() => {
-        setErrorMessage(null)
+        setTimeout(() => {
+          setErrorMessage(null)
       }, 5000)
       } 
     catch (exception) {
