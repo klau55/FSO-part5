@@ -26,5 +26,11 @@ const update = (id, newObject) => {
   return request.then(response => response.data)
 }
 
+const like = (id, newObject) => {
+  const likedBlog = newObject
+  likedBlog.likes = likedBlog.likes + 1
+  const request = axios.put(`${ baseUrl }/${id}`, likedBlog)
+  return request.then(response => response.data)
+}
 // eslint-disable-next-line import/no-anonymous-default-export
-export default { getAll, create, update, setToken }
+export default { getAll, create, update, setToken, like }
