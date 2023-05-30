@@ -1,17 +1,20 @@
 import Blog from './Blog.js'
 
 const BlogForm = ({ user, handleLogout, handleBlogChange, addBlog, blogs, newBlogVisible,setNewBlogVisible }) => {
+  
   const hideWhenVisible = { display: newBlogVisible ? 'none' : '' }
   const showWhenVisible = { display: newBlogVisible ? '' : 'none' }  
 
   return (
   <> 
-    <div style={hideWhenVisible}>
-      <button onClick={() => setNewBlogVisible(true)}>new Note</button>
+    <div>
+      <p>{user.name} logged in</p> 
+      <button type="button" onClick={handleLogout}>Log out</button>
     </div>
-
-    <p>{user.name} logged in</p> 
-    <button type="button" onClick={handleLogout}>Log out</button>
+    <br></br>
+    <div style={hideWhenVisible}>
+      <button onClick={() => setNewBlogVisible(true)}>new Blog</button>
+    </div>
     <div style={showWhenVisible}>
       <h3>New blog:</h3>
       <form onSubmit={addBlog}>
