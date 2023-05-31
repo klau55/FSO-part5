@@ -16,7 +16,7 @@ const Blog = ({blog}) => {
   const like = async () => {
     await blogService
       .like(blog.id, blog)
-
+      .getAll()
   }
 
 return (

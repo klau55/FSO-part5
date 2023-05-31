@@ -13,7 +13,8 @@ const App = () => {
   const [password, setPassword] = useState('') 
   const [user, setUser] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
-  const [newBlogVisible, setNewBlogVisible] = useState(false)
+
+
 
 
   const handleLogin = async (event) => {
@@ -146,8 +147,8 @@ const App = () => {
       <Notification message={errorMessage} />
       {user === null ?
       loginForm() :
-      <BlogForm user={user} handleLogout={handleLogout} newBlogVisible={newBlogVisible}
-       setNewBlogVisible={setNewBlogVisible} handleBlogChange={handleBlogChange} addBlog={addBlog} blogs={blogs}/>
+      <BlogForm user={user} handleLogout={handleLogout}  handleBlogChange={handleBlogChange}
+      addBlog={addBlog} blogs={blogs} />
     }
     </div>
   )

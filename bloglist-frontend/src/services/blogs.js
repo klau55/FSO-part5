@@ -27,6 +27,7 @@ const update = (id, newObject) => {
 }
 
 const like = (id, newObject) => {
+
   const likedBlog = newObject
   likedBlog.likes = likedBlog.likes + 1
   const request = axios.put(`${ baseUrl }/${id}`, likedBlog)
