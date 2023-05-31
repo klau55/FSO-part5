@@ -1,24 +1,19 @@
 import Blog from './Blog.js'
-import { useState, useEffect } from 'react'
-import blogService from '../services/blogs'
+import { useState } from 'react'
 
-const BlogForm = ({ user, handleLogout, handleBlogChange, addBlog }) => {
+const BlogForm = ({ user, handleLogout, handleBlogChange, addBlog, blogs }) => {
   
-  const [blogs, setBlogs] = useState([])
+
   const [blogsSortedByLikes, setBlogsSortedByLikes] = useState(null)
   const [newBlogVisible, setNewBlogVisible] = useState(false)
-
-  useEffect(() => {
-    blogService.getAll().then(blogs =>
-      setBlogs( blogs )
-    )  
-  }, [])
+  const [updates, setUpdates] = useState(0)
 
 
   const hideWhenVisible = { display: newBlogVisible ? 'none' : '' }
   const showWhenVisible = { display: newBlogVisible ? '' : 'none' }  
 
   const sortByLikes = () => {
+    setUpdates(updates + 1)
     console.log(blogs)
     setBlogsSortedByLikes(blogs.sort((a, b) => b.likes - a.likes)) 
     console.log(blogsSortedByLikes)
@@ -50,13 +45,9 @@ const BlogForm = ({ user, handleLogout, handleBlogChange, addBlog }) => {
      <h4>Blogs:</h4>
      <div>
       <button onClick={() => sortByLikes()}>SORT BY LIKES</button>
-           {blogsSortedByLikes === null ?
-           blogs.map(blog =>
-          <Blog key={blog.id} blog={blog} />)
-            :
-           blogsSortedByLikes.map(blog =>
+        {blogs.map(blog =>
           <Blog key={blog.id} blog={blog} />
-     )}
+        )}
     </div>
   </>
   )

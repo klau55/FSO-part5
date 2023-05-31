@@ -1,5 +1,6 @@
 import Togglable from './Togglable.js'
 import blogService from '../services/blogs.js'
+import { useState } from 'react'
 
 
 
@@ -12,11 +13,11 @@ const blogStyle = {
 }
 
 const Blog = ({blog}) => {
-
+  const [likesClicked, setLikesClicked] = useState(0)
   const like = async () => {
+    setLikesClicked(likesClicked + 1)
     await blogService
       .like(blog.id, blog)
-      .getAll()
   }
 
 return (
