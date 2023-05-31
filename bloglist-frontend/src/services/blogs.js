@@ -33,5 +33,10 @@ const like = (id, newObject) => {
   const request = axios.put(`${ baseUrl }/${id}`, likedBlog)
   return request.then(response => response.data)
 }
+const deleteBlog = (id, blog) => {
+
+  const request = axios.delete(`${ baseUrl }/${id}`, blog)
+  return request.then(response => response.data)
+}
 // eslint-disable-next-line import/no-anonymous-default-export
-export default { getAll, create, update, setToken, like }
+export default { getAll, create, update, setToken, like, deleteBlog }

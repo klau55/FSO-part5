@@ -16,7 +16,6 @@ const App = () => {
 
 
 
-
   const handleLogin = async (event) => {
     event.preventDefault()
     
@@ -61,7 +60,6 @@ const App = () => {
   }, [])
 
   const handleBlogChange = (event) => {
-    console.log(event.target.value)
     setNewTitle(event.target.value)
     setNewAuthor(event.target.value)
     setNewUrl(event.target.value)
