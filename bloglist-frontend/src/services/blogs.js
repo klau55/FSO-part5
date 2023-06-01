@@ -38,5 +38,4 @@ const deleteBlog = (id, blog) => {
   const request = axios.delete(`${ baseUrl }/${id}`, blog)
   return request.then(response => response.data)
 }
-// eslint-disable-next-line import/no-anonymous-default-export
 export default { getAll, create, update, setToken, like, deleteBlog }

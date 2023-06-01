@@ -13,7 +13,8 @@ const blogStyle = {
   marginBottom: 5
 }
 
-const Blog = ({blog, user}) => {
+const Blog = ({ blog, user }) => {
+  // eslint-disable-next-line no-unused-vars
   const [blogs, setBlogs] = useState([])
 
   const deleteBlog = async() => {
@@ -32,17 +33,17 @@ const Blog = ({blog, user}) => {
       setBlogs( blogs ))
   }
 
-return (
-  <div style={blogStyle}>
-      {blog.title} 
-      <Togglable buttonLabel="view" buttonLabel2="hide"> 
+  return (
+    <div style={blogStyle}>
+      {blog.title}
+      <Togglable buttonLabel="view" buttonLabel2="hide">
         <p>Author: {blog.author}</p>
         <p>url: {blog.url}</p>
         <p>likes: {blog.likes} <button onClick={likeBlog}>like</button></p>
         <p>creator: {blog.creator}</p>
-        {user.name === blog.creator ? <button onClick={deleteBlog}>delete</button> : ""}
-    </Togglable>
-  </div>  
-)}
+        {user.name === blog.creator ? <button onClick={deleteBlog}>delete</button> : ''}
+      </Togglable>
+    </div>
+  )}
 
 export default Blog

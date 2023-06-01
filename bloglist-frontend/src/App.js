@@ -9,8 +9,8 @@ const App = () => {
   const [newAuthor, setNewAuthor] = useState('')
   const [newTitle, setNewTitle] = useState('')
   const [newUrl, setNewUrl] = useState('')
-  const [username, setUsername] = useState('') 
-  const [password, setPassword] = useState('') 
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
 
@@ -18,7 +18,7 @@ const App = () => {
 
   const handleLogin = async (event) => {
     event.preventDefault()
-    
+
     try {
       const user = await loginService.login({
         username, password,
@@ -36,18 +36,18 @@ const App = () => {
         setErrorMessage(null)
       }, 5000)
     }
-     catch (exception) {
+    catch (exception) {
       setErrorMessage('Wrong credentials')
       setTimeout(() => {
         setErrorMessage(null)
       }, 5000)
     }
   }
-  
+
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
-    )  
+    )
   }, [])
 
   useEffect(() => {
@@ -69,7 +69,7 @@ const App = () => {
     <form onSubmit={handleLogin}>
       <div>
         username
-          <input
+        <input
           type="text"
           value={username}
           name="Username"
@@ -78,7 +78,7 @@ const App = () => {
       </div>
       <div>
         password
-          <input
+        <input
           type="password"
           value={password}
           name="Password"
@@ -86,23 +86,23 @@ const App = () => {
         />
       </div>
       <button type="submit">login</button>
-    </form>      
+    </form>
   )
-  const Notification = ({message}) => {
+  const Notification = ({ message }) => {
     if (message === null) {
       return null
     }
 
     return (
       <div className="message">
-      {message}
+        {message}
       </div>
     )
   }
   const handleLogout = async (event) => {
     event.preventDefault()
     window.localStorage.clear()
-    
+
     blogService.setToken(null)
     setUser(null)
     setUsername('')
@@ -111,7 +111,7 @@ const App = () => {
 
   }
 
-  const addBlog = async (event) => {
+  const addBlog = async () => {
 
     const newBlog = {
       title: newTitle,
@@ -123,14 +123,14 @@ const App = () => {
     }
     console.log(newBlog)
 
-    try { 
+    try {
       await blogService
         .create(newBlog)
-        setErrorMessage('Added new blog')
-        setTimeout(() => {
-          setErrorMessage(null)
+      setErrorMessage('Added new blog')
+      setTimeout(() => {
+        setErrorMessage(null)
       }, 5000)
-      } 
+    }
     catch (exception) {
       setErrorMessage('Error! Check entries')
       setTimeout(() => {
@@ -138,16 +138,16 @@ const App = () => {
       }, 5000)
     }
   }
-  
+
   return (
     <div>
       <h2>blogs</h2>
       <Notification message={errorMessage} />
       {user === null ?
-      loginForm() :
-      <BlogForm user={user} handleLogout={handleLogout}  handleBlogChange={handleBlogChange}
-      addBlog={addBlog} blogs={blogs} />
-    }
+        loginForm() :
+        <BlogForm user={user} handleLogout={handleLogout}  handleBlogChange={handleBlogChange}
+          addBlog={addBlog} blogs={blogs} />
+      }
     </div>
   )
 }
