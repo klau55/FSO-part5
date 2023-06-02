@@ -1,22 +1,39 @@
 import Blog from './Blog.js'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import blogService from '../services/blogs'
 
-const BlogForm = ({ user, handleLogout, handleBlogChange, addBlog, blogs }) => {
+const BlogForm = ({ user, handleLogout, handleBlogChange, addBlog }) => {
 
-
+  const [blogs, setBlogs] = useState([])
   const [blogsSortedByLikes, setBlogsSortedByLikes] = useState(null)
   const [newBlogVisible, setNewBlogVisible] = useState(false)
-  const [updates, setUpdates] = useState(0)
+  //  const [updates, setUpdates] = useState(0)
 
 
   const hideWhenVisible = { display: newBlogVisible ? 'none' : '' }
   const showWhenVisible = { display: newBlogVisible ? '' : 'none' }
 
+  useEffect(() => {
+    blogService.getAll().then(blogs =>
+      setBlogs( blogs )
+    )
+  }, [])
+
+
+
   const sortByLikes = () => {
-    setUpdates(updates + 1)
-    console.log(blogs)
     setBlogsSortedByLikes(blogs.sort((a, b) => b.likes - a.likes))
     console.log(blogsSortedByLikes)
+  }
+
+  const increaseLikes = (id) => {
+    var blogsCopy = [ ...blogs ]
+    var index = blogsCopy.findIndex(b => b.id = id)
+
+    if(index !== -1)
+      blogsCopy[index].likes = blogsCopy[index].likes +1
+
+    setBlogs(blogsCopy)
   }
 
   return (
@@ -46,7 +63,7 @@ const BlogForm = ({ user, handleLogout, handleBlogChange, addBlog, blogs }) => {
       <div>
         <button onClick={() => sortByLikes()}>SORT BY LIKES</button>
         {blogs.map(blog =>
-          <Blog key={blog.id} blog={blog} user={user} />
+          <Blog key={blog.id} blog={blog} user={user} increaseLikes={increaseLikes} />
         )}
       </div>
     </>

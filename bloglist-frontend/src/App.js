@@ -5,7 +5,7 @@ import './index.css'
 import BlogForm from './components/BlogForm.js'
 
 const App = () => {
-  const [blogs, setBlogs] = useState([])
+
   const [newAuthor, setNewAuthor] = useState('')
   const [newTitle, setNewTitle] = useState('')
   const [newUrl, setNewUrl] = useState('')
@@ -44,11 +44,7 @@ const App = () => {
     }
   }
 
-  useEffect(() => {
-    blogService.getAll().then(blogs =>
-      setBlogs( blogs )
-    )
-  }, [])
+
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedNoteappUser')
@@ -146,7 +142,7 @@ const App = () => {
       {user === null ?
         loginForm() :
         <BlogForm user={user} handleLogout={handleLogout}  handleBlogChange={handleBlogChange}
-          addBlog={addBlog} blogs={blogs} />
+          addBlog={addBlog}  />
       }
     </div>
   )

@@ -1,6 +1,6 @@
 import Togglable from './Togglable.js'
 import blogService from '../services/blogs.js'
-import { useState } from 'react'
+
 
 
 
@@ -13,24 +13,24 @@ const blogStyle = {
   marginBottom: 5
 }
 
-const Blog = ({ blog, user }) => {
+const Blog = ({ blog, user, increaseLikes }) => {
   // eslint-disable-next-line no-unused-vars
-  const [blogs, setBlogs] = useState([])
+
 
   const deleteBlog = async() => {
     window.confirm('You are about to delete '+ blog.title)
     await blogService
       .deleteBlog(blog.id, blog)
-    blogService.getAll().then(blogs =>
-      setBlogs( blogs ))
+
   }
 
   const likeBlog = async () => {
     console.log(user.name)
     await blogService
       .like(blog.id, blog)
-    blogService.getAll().then(blogs =>
-      setBlogs( blogs ))
+
+    increaseLikes(blog.id)
+
   }
 
   return (
