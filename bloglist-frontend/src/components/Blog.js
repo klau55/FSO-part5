@@ -39,10 +39,9 @@ const Blog = ({ blog, user, deleteBlogs, blogToLike }) => {
   }
 
   return (
-    <div style={blogStyle}>
-      {blog.title}
-      <Togglable buttonLabel="view" buttonLabel2="hide">
-        <p>Author: {blog.author}</p>
+    <div style={blogStyle} className='blog' >
+      <p>{blog.title} by {blog.author}</p>
+      <Togglable buttonLabel="view" buttonLabel2="hide" >
         <p>url: {blog.url}</p>
         <p>likes: {likes} <button onClick={likeBlog}>like</button></p>
         <p>creator: {blog.creator}</p>

@@ -1,6 +1,6 @@
 import Blog from './Blog.js'
 import { useState, useEffect } from 'react'
-import blogService from '../services/blogs'
+import blogService from '../services/blogs.js'
 
 const BlogForm = ({ user, handleLogout, handleBlogChange, addBlog }) => {
 
