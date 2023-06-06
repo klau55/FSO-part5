@@ -46,4 +46,31 @@ describe('<Togglable />', () => {
     screen.debug()
   })
 })
+describe('5.13 url and likes get shown when button "show" is clicked', () => {
+  test('renders content', async () => {
+    const blog = {
+      title: 'TEST1',
+      author: 'TEST2',
+      url: 'TEST3',
+      likes: 5,
+      creator: 'TEST5'
+    }
 
+    const user = {
+      name: "root",
+      username: "red",
+      id: 5001
+    }
+    const mockHandler = jest.fn()
+    const {container} = render(<Blog blog={blog} user={user} showWhenVisible={mockHandler} />)
+    
+    const u = userEvent.setup()
+    const button = screen.getByText('view')
+    await u.click(button)
+
+    const div = container.querySelector('.blog')
+
+    expect(div).toHaveTextContent('likes: 5', 'TEST5')
+  })
+  
+})
