@@ -7,7 +7,7 @@ const BlogForm = ({ user, handleLogout, handleBlogChange, addBlog }) => {
   const [blogs, setBlogs] = useState([])
   const [blogsSortedByLikes, setBlogsSortedByLikes] = useState(null)
   const [newBlogVisible, setNewBlogVisible] = useState(false)
-  //  const [updates, setUpdates] = useState(0)
+
 
 
   const hideWhenVisible = { display: newBlogVisible ? 'none' : '' }
@@ -26,14 +26,14 @@ const BlogForm = ({ user, handleLogout, handleBlogChange, addBlog }) => {
     console.log(blogsSortedByLikes)
   }
 
-  const increaseLikes = (id) => {
-    var blogsCopy = [ ...blogs ]
-    var index = blogsCopy.findIndex(b => b.id = id)
-
-    if(index !== -1)
-      blogsCopy[index].likes = blogsCopy[index].likes +1
-
+  const deleteBlogs = (id) => {
+    var blogsCopy = [...blogs.filter(b => b.id !== id)]
     setBlogs(blogsCopy)
+  }
+  const blogToLike = async () => {
+
+    const updatedBlogs = await blogService.getAll()
+    setBlogs(updatedBlogs)
   }
 
   return (
@@ -63,7 +63,7 @@ const BlogForm = ({ user, handleLogout, handleBlogChange, addBlog }) => {
       <div>
         <button onClick={() => sortByLikes()}>SORT BY LIKES</button>
         {blogs.map(blog =>
-          <Blog key={blog.id} blog={blog} user={user} increaseLikes={increaseLikes} />
+          <Blog key={blog.id} blog={blog} user={user} deleteBlogs={deleteBlogs} blogToLike={blogToLike} />
         )}
       </div>
     </>

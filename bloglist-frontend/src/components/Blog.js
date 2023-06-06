@@ -1,8 +1,6 @@
 import Togglable from './Togglable.js'
 import blogService from '../services/blogs.js'
-
-
-
+import { useState } from 'react'
 
 
 const blogStyle = {
@@ -13,23 +11,30 @@ const blogStyle = {
   marginBottom: 5
 }
 
-const Blog = ({ blog, user, increaseLikes }) => {
+const Blog = ({ blog, user, deleteBlogs, blogToLike }) => {
   // eslint-disable-next-line no-unused-vars
+  const [likes, setLikes] = useState(blog.likes)
 
-
-  const deleteBlog = async() => {
-    window.confirm('You are about to delete '+ blog.title)
-    await blogService
-      .deleteBlog(blog.id, blog)
-
+  const blogToDelete = async() => {
+    const result = window.confirm('You are about to delete '+ blog.title)
+    if (result) {
+      await blogService
+        .deleteBlog(blog.id, blog)
+      deleteBlogs(blog.id)
+    }
   }
 
   const likeBlog = async () => {
-    console.log(user.name)
-    await blogService
-      .like(blog.id, blog)
+    console.log(blog.likes)
+    const likedBlog = { ...blog, likes: blog.likes + 1 }
+    console.log(likedBlog.likes)
 
-    increaseLikes(blog.id)
+
+    const updatedBlog = await blogService
+      .update(blog.id, likedBlog)
+    console.log(updatedBlog.likes)
+    setLikes(updatedBlog.likes)
+    blogToLike()
 
   }
 
@@ -39,9 +44,9 @@ const Blog = ({ blog, user, increaseLikes }) => {
       <Togglable buttonLabel="view" buttonLabel2="hide">
         <p>Author: {blog.author}</p>
         <p>url: {blog.url}</p>
-        <p>likes: {blog.likes} <button onClick={likeBlog}>like</button></p>
+        <p>likes: {likes} <button onClick={likeBlog}>like</button></p>
         <p>creator: {blog.creator}</p>
-        {user.name === blog.creator ? <button onClick={deleteBlog}>delete</button> : ''}
+        {user.name === blog.creator ? <button onClick={blogToDelete}>delete</button> : ''}
       </Togglable>
     </div>
   )}
