@@ -74,3 +74,36 @@ describe('5.13 url and likes get shown when button "show" is clicked', () => {
   })
   
 })
+describe('5.14', () => {
+  
+  const mockHandler = jest.fn()
+
+  test('like clicked twice', async () => {
+    const blog = {
+      title: 'TEST1',
+      author: 'TEST2',
+      url: 'TEST3',
+      likes: 5,
+      creator: 'TEST5'
+    }
+
+    const user = {
+      name: "root",
+      username: "red",
+      id: 5001
+    }
+    render(<Blog blog={blog} user={user} likeBlog={mockHandler} />)
+    
+    const u = userEvent.setup()
+    const button = screen.getByText('view')
+    await u.click(button)
+
+    const like = screen.getByText('like')
+    await u.click(like)
+    await u.click(like)
+
+
+    expect(mockHandler.mock.calls).toHaveLength(2)
+  })
+  
+})

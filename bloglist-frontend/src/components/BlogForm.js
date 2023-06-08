@@ -10,6 +10,7 @@ const BlogForm = ({ user, handleLogout, handleBlogChange, addBlog }) => {
 
 
 
+
   const hideWhenVisible = { display: newBlogVisible ? 'none' : '' }
   const showWhenVisible = { display: newBlogVisible ? '' : 'none' }
 
@@ -30,10 +31,13 @@ const BlogForm = ({ user, handleLogout, handleBlogChange, addBlog }) => {
     var blogsCopy = [...blogs.filter(b => b.id !== id)]
     setBlogs(blogsCopy)
   }
-  const blogToLike = async () => {
 
-    const updatedBlogs = await blogService.getAll()
-    setBlogs(updatedBlogs)
+  const likeBlog = async (blog) => {
+    const likedBlog = { ...blog, likes: blog.likes + 1 }
+    const updatedBlog = await blogService
+      .update(blog.id, likedBlog)
+    setBlogs(blogs.map(blog => blog.id !== updatedBlog.id ? blog : updatedBlog))
+    console.log(blogs)
   }
 
   return (
@@ -63,7 +67,7 @@ const BlogForm = ({ user, handleLogout, handleBlogChange, addBlog }) => {
       <div>
         <button onClick={() => sortByLikes()}>SORT BY LIKES</button>
         {blogs.map(blog =>
-          <Blog key={blog.id} blog={blog} user={user} deleteBlogs={deleteBlogs} blogToLike={blogToLike} />
+          <Blog key={blog.id} blog={blog} user={user} deleteBlogs={deleteBlogs} likeBlog={likeBlog} />
         )}
       </div>
     </>
