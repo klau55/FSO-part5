@@ -39,7 +39,7 @@ const BlogForm = ({ user, handleLogout, handleBlogChange, addBlog }) => {
     setBlogs(blogs.map(blog => blog.id !== updatedBlog.id ? blog : updatedBlog))
     console.log(blogs)
   }
-
+  console.log('hello')
   return (
     <>
       <div>

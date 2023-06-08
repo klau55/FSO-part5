@@ -117,7 +117,6 @@ const App = () => {
       user: user,
       creator: user.name
     }
-    console.log(newBlog)
 
     try {
       await blogService
