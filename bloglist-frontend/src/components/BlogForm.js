@@ -1,45 +1,40 @@
 import Blog from './Blog.js'
-import { useState, useEffect } from 'react'
-import blogService from '../services/blogs.js'
+import { useState } from 'react'
 
-const BlogForm = ({ user, handleLogout, handleBlogChange, addBlog }) => {
 
-  const [blogs, setBlogs] = useState([])
+const BlogForm = ({ user, handleLogout, addBlog, blogs, likeBlog, deleteBlogs }) => {
+
+
+  // eslint-disable-next-line no-unused-vars
   const [blogsSortedByLikes, setBlogsSortedByLikes] = useState(null)
   const [newBlogVisible, setNewBlogVisible] = useState(false)
-
-
-
+  const [newAuthor, setNewAuthor] = useState('')
+  const [newTitle, setNewTitle] = useState('')
+  const [newUrl, setNewUrl] = useState('')
 
   const hideWhenVisible = { display: newBlogVisible ? 'none' : '' }
   const showWhenVisible = { display: newBlogVisible ? '' : 'none' }
 
-  useEffect(() => {
-    blogService.getAll().then(blogs =>
-      setBlogs( blogs )
-    )
-  }, [])
 
-
+  // TODO: перенести сюда из аппа стейты, хендл блогченж. А отсюда в апп стейт блогс и юзэфект
 
   const sortByLikes = () => {
     setBlogsSortedByLikes(blogs.sort((a, b) => b.likes - a.likes))
-    console.log(blogsSortedByLikes)
   }
 
-  const deleteBlogs = (id) => {
-    var blogsCopy = [...blogs.filter(b => b.id !== id)]
-    setBlogs(blogsCopy)
+  const forwardForm = (e) => {
+    e.preventDefault()
+    const newBlog = {
+      title: newTitle,
+      author: newAuthor,
+      url: newUrl,
+      likes: 0,
+      user: user,
+      creator: user.name
+    }
+    addBlog(newBlog)
   }
 
-  const likeBlog = async (blog) => {
-    const likedBlog = { ...blog, likes: blog.likes + 1 }
-    const updatedBlog = await blogService
-      .update(blog.id, likedBlog)
-    setBlogs(blogs.map(blog => blog.id !== updatedBlog.id ? blog : updatedBlog))
-    console.log(blogs)
-  }
-  console.log('hello')
   return (
     <>
       <div>
@@ -52,13 +47,13 @@ const BlogForm = ({ user, handleLogout, handleBlogChange, addBlog }) => {
       </div>
       <div style={showWhenVisible}>
         <h3>New blog:</h3>
-        <form onSubmit={addBlog}>
+        <form onSubmit={forwardForm}>
           <input name="title"
-            onChange={handleBlogChange} placeholder="title"/>
+            onChange={({ target }) => setNewTitle(target.value)} placeholder="title"/>
           <input name="author"
-            onChange={handleBlogChange} placeholder="author"/>
+            onChange={({ target }) => setNewAuthor(target.value)} placeholder="author"/>
           <input name="url"
-            onChange={handleBlogChange} placeholder="url"/>
+            onChange={({ target }) => setNewUrl(target.value)} placeholder="url"/>
           <button type="submit">save</button>
         </form>
         <button onClick={() => setNewBlogVisible(false)}>cancel</button>

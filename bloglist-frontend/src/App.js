@@ -6,14 +6,11 @@ import BlogForm from './components/BlogForm.js'
 
 const App = () => {
 
-  const [newAuthor, setNewAuthor] = useState('')
-  const [newTitle, setNewTitle] = useState('')
-  const [newUrl, setNewUrl] = useState('')
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
-
+  const [blogs, setBlogs] = useState([])
 
 
   const handleLogin = async (event) => {
@@ -43,8 +40,25 @@ const App = () => {
       }, 5000)
     }
   }
+  const deleteBlogs = (id) => {
+    var blogsCopy = [...blogs.filter(b => b.id !== id)]
+    setBlogs(blogsCopy)
+  }
+
+  const likeBlog = async (blog) => {
+    const likedBlog = { ...blog, likes: blog.likes + 1 }
+    const updatedBlog = await blogService
+      .update(blog.id, likedBlog)
+    setBlogs(blogs.map(blog => blog.id !== updatedBlog.id ? blog : updatedBlog))
+    console.log(blogs)
+  }
 
 
+  useEffect(() => {
+    blogService.getAll().then(blogs =>
+      setBlogs( blogs )
+    )
+  }, [])
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedNoteappUser')
@@ -55,11 +69,7 @@ const App = () => {
     }
   }, [])
 
-  const handleBlogChange = (event) => {
-    setNewTitle(event.target.value)
-    setNewAuthor(event.target.value)
-    setNewUrl(event.target.value)
-  }
+
 
   const loginForm = () => (
     <form onSubmit={handleLogin}>
@@ -107,20 +117,22 @@ const App = () => {
 
   }
 
-  const addBlog = async () => {
+  const addBlog = async (newBlog) => {
 
-    const newBlog = {
-      title: newTitle,
-      author: newAuthor,
-      url: newUrl,
-      likes: 0,
-      user: user,
-      creator: user.name
-    }
+    // const newBlog = {
+    //   title: newTitle,
+    //   author: newAuthor,
+    //   url: newUrl,
+    //   likes: 0,
+    //   user: user,
+    //   creator: user.name
+    // }
 
     try {
       await blogService
         .create(newBlog)
+      setBlogs(blogs.concat(newBlog))
+
       setErrorMessage('Added new blog')
       setTimeout(() => {
         setErrorMessage(null)
@@ -140,8 +152,8 @@ const App = () => {
       <Notification message={errorMessage} />
       {user === null ?
         loginForm() :
-        <BlogForm user={user} handleLogout={handleLogout}  handleBlogChange={handleBlogChange}
-          addBlog={addBlog}  />
+        <BlogForm user={user} blogs={blogs} handleLogout={handleLogout}
+          addBlog={addBlog} deleteBlogs={deleteBlogs} likeBlog={likeBlog} />
       }
     </div>
   )

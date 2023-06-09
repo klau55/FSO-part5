@@ -16,11 +16,11 @@ describe('<Togglable />', () => {
     }
 
     const user = {
-      name: "root",
-      username: "red",
+      name: 'root',
+      username: 'red',
       id: 5001
     }
-    const {container} = render(<Blog blog={blog} user={user} />)
+    const { container } = render(<Blog blog={blog} user={user} />)
 
     const div = container.querySelector('.blog')
 
@@ -36,11 +36,11 @@ describe('<Togglable />', () => {
     }
 
     const user = {
-      name: "root",
-      username: "red",
+      name: 'root',
+      username: 'red',
       id: 5001
     }
-    const {container} = render(<Blog blog={blog} user={user} />)
+    const { container } = render(<Blog blog={blog} user={user} />)
     const div = container.querySelector('.togglableContent')
     expect(div).toHaveStyle('display: none')
     screen.debug()
@@ -57,13 +57,13 @@ describe('5.13 url and likes get shown when button "show" is clicked', () => {
     }
 
     const user = {
-      name: "root",
-      username: "red",
+      name: 'root',
+      username: 'red',
       id: 5001
     }
     const mockHandler = jest.fn()
-    const {container} = render(<Blog blog={blog} user={user} showWhenVisible={mockHandler} />)
-    
+    const { container } = render(<Blog blog={blog} user={user} showWhenVisible={mockHandler} />)
+
     const u = userEvent.setup()
     const button = screen.getByText('view')
     await u.click(button)
@@ -72,10 +72,10 @@ describe('5.13 url and likes get shown when button "show" is clicked', () => {
 
     expect(div).toHaveTextContent('likes: 5', 'TEST5')
   })
-  
+
 })
 describe('5.14', () => {
-  
+
   const mockHandler = jest.fn()
 
   test('like clicked twice', async () => {
@@ -88,12 +88,12 @@ describe('5.14', () => {
     }
 
     const user = {
-      name: "root",
-      username: "red",
+      name: 'root',
+      username: 'red',
       id: 5001
     }
     render(<Blog blog={blog} user={user} likeBlog={mockHandler} />)
-    
+
     const u = userEvent.setup()
     const button = screen.getByText('view')
     await u.click(button)
@@ -105,5 +105,5 @@ describe('5.14', () => {
 
     expect(mockHandler.mock.calls).toHaveLength(2)
   })
-  
+
 })
