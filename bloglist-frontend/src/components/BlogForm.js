@@ -37,6 +37,7 @@ const BlogForm = ({ user, handleLogout, addBlog, blogs, likeBlog, deleteBlogs })
     setNewAuthor('')
     setNewUrl('')
     setNewBlogVisible(false)
+    document.getElementById('addBlogForm').reset()
   }
 
   return (
@@ -51,7 +52,7 @@ const BlogForm = ({ user, handleLogout, addBlog, blogs, likeBlog, deleteBlogs })
       </div>
       <div style={showWhenVisible} className='viewButton'>
         <h3>New blog:</h3>
-        <form onSubmit={forwardForm}>
+        <form onSubmit={forwardForm} id="addBlogForm">
           <input name="title" id="title"
             onChange={({ target }) => setNewTitle(target.value)} placeholder="title"/>
           <input name="author" id="author"
