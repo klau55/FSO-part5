@@ -39,7 +39,7 @@ const Blog = ({ blog, user, deleteBlogs, likeBlog }) => {
         <p>url: {blog.url}</p>
         <p>likes: {blog.likes} <button onClick={() => likeBlog(blog)}>like</button></p>
         <p>creator: {blog.creator}</p>
-        {user.name === blog.creator ? <button onClick={blogToDelete}>delete</button> : ''}
+        {user.name === blog.creator ? <button onClick={blogToDelete} className='deleteButton'>delete</button> : ''}
       </Togglable>
     </div>
   )}

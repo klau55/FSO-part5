@@ -33,6 +33,10 @@ const BlogForm = ({ user, handleLogout, addBlog, blogs, likeBlog, deleteBlogs })
       creator: user.name
     }
     addBlog(newBlog)
+    setNewTitle('')
+    setNewAuthor('')
+    setNewUrl('')
+    setNewBlogVisible(false)
   }
 
   return (
@@ -45,16 +49,16 @@ const BlogForm = ({ user, handleLogout, addBlog, blogs, likeBlog, deleteBlogs })
       <div style={hideWhenVisible}>
         <button onClick={() => setNewBlogVisible(true)}>new Blog</button>
       </div>
-      <div style={showWhenVisible}>
+      <div style={showWhenVisible} className='viewButton'>
         <h3>New blog:</h3>
         <form onSubmit={forwardForm}>
-          <input name="title"
+          <input name="title" id="title"
             onChange={({ target }) => setNewTitle(target.value)} placeholder="title"/>
-          <input name="author"
+          <input name="author" id="author"
             onChange={({ target }) => setNewAuthor(target.value)} placeholder="author"/>
-          <input name="url"
+          <input name="url" id="url"
             onChange={({ target }) => setNewUrl(target.value)} placeholder="url"/>
-          <button type="submit">save</button>
+          <button type="submit" id="submit-button">save</button>
         </form>
         <button onClick={() => setNewBlogVisible(false)}>cancel</button>
       </div>

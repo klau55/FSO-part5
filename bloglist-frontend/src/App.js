@@ -18,10 +18,10 @@ const App = () => {
 
     try {
       const user = await loginService.login({
-        username, password,
+        username, password
       })
       window.localStorage.setItem(
-        'loggedNoteappUser', JSON.stringify(user)
+        'loggedBlogappUser', JSON.stringify(user)
       )
       blogService.setToken(user.token)
       setUser(user)
@@ -61,7 +61,7 @@ const App = () => {
   }, [])
 
   useEffect(() => {
-    const loggedUserJSON = window.localStorage.getItem('loggedNoteappUser')
+    const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
       setUser(user)
@@ -77,6 +77,7 @@ const App = () => {
         username
         <input
           type="text"
+          id='username'
           value={username}
           name="Username"
           onChange={({ target }) => setUsername(target.value)}
@@ -86,12 +87,13 @@ const App = () => {
         password
         <input
           type="password"
+          id='password'
           value={password}
           name="Password"
           onChange={({ target }) => setPassword(target.value)}
         />
       </div>
-      <button type="submit">login</button>
+      <button id="login-button" type="submit">login</button>
     </form>
   )
   const Notification = ({ message }) => {
@@ -118,15 +120,6 @@ const App = () => {
   }
 
   const addBlog = async (newBlog) => {
-
-    // const newBlog = {
-    //   title: newTitle,
-    //   author: newAuthor,
-    //   url: newUrl,
-    //   likes: 0,
-    //   user: user,
-    //   creator: user.name
-    // }
 
     try {
       await blogService
